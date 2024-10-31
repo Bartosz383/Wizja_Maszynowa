@@ -109,7 +109,7 @@ class Obraz:
 
 
 # Klasa główna programu
-class Program:
+class Program1:
     def __init__(self):
         self.kamera = Kamera()
         self.obraz = None
