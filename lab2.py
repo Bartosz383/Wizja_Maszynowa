@@ -3,7 +3,6 @@ import numpy as np
 import tkinter as tk
 from tkinter import messagebox
 
-
 # Definicja funkcji filtrowania obrazu z pliku bez wykrywania okręgów
 def filtrowanie_obrazu_z_pliku(image_path):
     frame = cv2.imread(image_path)
@@ -116,24 +115,3 @@ def wybierz_funkcje(funkcja):
         filtrowanie_obrazu_z_kamery()
     else:
         messagebox.showerror("Błąd", "Nieznana funkcja")
-
-
-# Utworzenie głównego okna aplikacji
-root = tk.Tk()
-root.title("Wybór funkcji filtrowania obrazu")
-root.geometry("400x200")
-
-# Przycisk do wyboru funkcji dla lab2_1
-btn_lab2_1 = tk.Button(root, text="Filtry dla lab2_1.jpg", command=lambda: wybierz_funkcje('lab2_1'))
-btn_lab2_1.pack(pady=10)
-
-# Przycisk do wyboru funkcji dla lab2_2
-btn_lab2_2 = tk.Button(root, text="Filtry dla lab2_2.png", command=lambda: wybierz_funkcje('lab2_2'))
-btn_lab2_2.pack(pady=10)
-
-# Przycisk do wyboru funkcji z kamery
-btn_kamera = tk.Button(root, text="Filtry obrazu z kamery", command=lambda: wybierz_funkcje('kamera'))
-btn_kamera.pack(pady=10)
-
-# Rozpoczęcie głównej pętli aplikacji
-root.mainloop()
