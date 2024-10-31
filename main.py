@@ -34,96 +34,140 @@
 #
 # pipe.stop()
 
+
 import cv2
 import numpy as np
 
-# b) Ustawienie kamery i inicjalizacja detektora twarzy
-cap = cv2.VideoCapture(0)
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
-if not cap.isOpened():
-    print("Nie można otworzyć kamery")
-    exit()
+# Klasa do obsługi kamery
+class Kamera:
+    def __init__(self):
+        self.cap = cv2.VideoCapture(0)
+        self.face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
-# Zatrzymanie pętli po wykryciu twarzy i zapisaniu obrazu
-while True:
-    ret, frame = cap.read()
-    if not ret:
-        print("Nie można odczytać obrazu z kamery")
-        break
+    def otworz_kamere(self):
+        if not self.cap.isOpened():
+            print("Nie można otworzyć kamery")
+            return False
+        return True
 
-    # Detekcja twarzy
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+    def zamknij_kamere(self):
+        self.cap.release()
+        cv2.destroyAllWindows()
 
-    # Rysowanie prostokątów wokół twarzy
-    for (x, y, w, h) in faces:
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+    def detekcja_twarzy(self):
+        while True:
+            ret, frame = self.cap.read()
+            if not ret:
+                print("Nie można odczytać obrazu z kamery")
+                break
 
-    cv2.imshow("Kamera - twarze", frame)
+            # Wykrywanie twarzy
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = self.face_cascade.detectMultiScale(gray, 1.1, 4)
 
-    # Zapisz obraz z kamerki do pliku przy nacisnięciu "s"
-    if cv2.waitKey(1) & 0xFF == ord('s'):
-        cv2.imwrite("obraz_z_kamery.jpg", frame)
-        print("Zapisano obraz jako 'obraz_z_kamery.jpg'")
-        break
+            # Rysowanie prostokątów wokół twarzy
+            for (x, y, w, h) in faces:
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
-cap.release()
-cv2.destroyAllWindows()
+            cv2.imshow("Kamera - twarze", frame)
 
-# c) Wczytaj zapisany obraz i sprawdź jego parametry
-img = cv2.imread("obraz_z_kamery.jpg")
-print("Parametry obrazu:", img.shape)
+            # Zapisz obraz przy nacisnięciu "s"
+            if cv2.waitKey(1) & 0xFF == ord('s'):
+                cv2.imwrite("obraz_z_kamery.jpg", frame)
+                print("Zapisano obraz jako 'obraz_z_kamery.jpg'")
+                break
 
-# d) Wyświetl obraz
-cv2.imshow("Wczytany obraz", img)
-cv2.waitKey(0)
+            # Zatrzymaj kamerę przy nacisnięciu "q"
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
 
-# e) Podejrzyj zawartość dowolnego piksela (np. 50, 50)
-print("Kolor piksela (50, 50):", img[50, 50])
 
-# f) Wytnij z obrazu jedną z twarzy (jeśli wykryto)
-faces = face_cascade.detectMultiScale(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), 1.1, 4)
-if len(faces) > 0:
-    (x, y, w, h) = faces[0]
-    face_crop = img[y:y + h, x:x + w]
-    cv2.imshow("Wycięta twarz", face_crop)
-    cv2.imwrite("wycieta_twarz.jpg", face_crop)
-    print("Wycięto twarz i zapisano jako 'wycieta_twarz.jpg'")
-else:
-    print("Nie znaleziono twarzy do wycięcia")
+# Klasa do operacji na obrazie
+class Obraz:
+    def __init__(self, path):
+        self.img = cv2.imread(path)
+        self.face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
-# g) Zmniejszenie obrazu o 50% z zachowaniem proporcji
-new_x, new_y = int(img.shape[1] * 0.5), int(img.shape[0] * 0.5)
-resized_img = cv2.resize(img, (new_x, new_y))
-cv2.imshow("Zmniejszony obraz", resized_img)
+    def parametry_obrazu(self):
+        if self.img is not None:
+            print("Parametry obrazu:", self.img.shape)
+            cv2.imshow("Wczytany obraz", self.img)
+        else:
+            print("Błąd: Nie udało się wczytać obrazu")
 
-# h) Obróć pierwotny obraz o 30 stopni przeciwnie do ruchu wskazówek zegara
-(h, w) = img.shape[:2]
-center = (w // 2, h // 2)
-rotate_matrix = cv2.getRotationMatrix2D(center=center, angle=30, scale=1)
+    def kolor_piksela(self, x, y):
+        if self.img is not None:
+            print(f"Kolor piksela ({x}, {y}):", self.img[y, x])
 
-# i) Rozwiązanie problemu wychodzenia poza krawędzie: rozszerzenie rozmiaru wyjściowego obrazu
-cos = np.abs(rotate_matrix[0, 0])
-sin = np.abs(rotate_matrix[0, 1])
-new_w = int((h * sin) + (w * cos))
-new_h = int((h * cos) + (w * sin))
-rotate_matrix[0, 2] += (new_w / 2) - center[0]
-rotate_matrix[1, 2] += (new_h / 2) - center[1]
+    def wytnij_twarz(self):
+        gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
+        faces = self.face_cascade.detectMultiScale(gray, 1.1, 4)
+        if len(faces) > 0:
+            (x, y, w, h) = faces[0]
+            face_crop = self.img[y:y + h, x:x + w]
+            cv2.imshow("Wycięta twarz", face_crop)
+            cv2.imwrite("wycieta_twarz.jpg", face_crop)
+            print("Wycięto twarz i zapisano jako 'wycieta_twarz.jpg'")
+        else:
+            print("Nie znaleziono twarzy do wycięcia")
 
-rotated_img = cv2.warpAffine(img, rotate_matrix, (new_w, new_h))
-cv2.imshow("Obrócony obraz", rotated_img)
+    def zmniejsz_obraz(self):
+        new_x, new_y = int(self.img.shape[1] * 0.5), int(self.img.shape[0] * 0.5)
+        resized_img = cv2.resize(self.img, (new_x, new_y))
+        cv2.imshow("Zmniejszony obraz", resized_img)
 
-# j) Oznaczenie twarzy czerwonym prostokątem i podpisanie imieniem
-if len(faces) > 0:
-    (x, y, w, h) = faces[0]
-    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
-    cv2.putText(img, "Bartosz Kruszynski", (x, y + h + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-    cv2.imshow("Oznaczona twarz", img)
+    def obroc_obraz(self):
+        (h, w) = self.img.shape[:2]
+        center = (w // 2, h // 2)
+        rotate_matrix = cv2.getRotationMatrix2D(center=center, angle=30, scale=1)
 
-# k) Zapisz obrócony obraz do pliku
-cv2.imwrite("obrocony_obraz.jpg", rotated_img)
-print("Obrócony obraz zapisano jako 'obrocony_obraz.jpg'")
+        # Rozszerzanie rozmiaru wyjściowego obrazu, aby zapobiec przycięciu
+        cos = np.abs(rotate_matrix[0, 0])
+        sin = np.abs(rotate_matrix[0, 1])
+        new_w = int((h * sin) + (w * cos))
+        new_h = int((h * cos) + (w * sin))
+        rotate_matrix[0, 2] += (new_w / 2) - center[0]
+        rotate_matrix[1, 2] += (new_h / 2) - center[1]
 
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+        rotated_img = cv2.warpAffine(self.img, rotate_matrix, (new_w, new_h))
+        cv2.imshow("Obrócony obraz", rotated_img)
+        cv2.imwrite("obrocony_obraz.jpg", rotated_img)
+        print("Obrócony obraz zapisano jako 'obrocony_obraz.jpg'")
+
+    def oznacz_twarz(self, imie_nazwisko):
+        gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
+        faces = self.face_cascade.detectMultiScale(gray, 1.1, 4)
+        if len(faces) > 0:
+            (x, y, w, h) = faces[0]
+            cv2.rectangle(self.img, (x, y), (x + w, y + h), (0, 0, 255), 2)
+            cv2.putText(self.img, imie_nazwisko, (x, y + h + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+            cv2.imshow("Oznaczona twarz", self.img)
+
+
+# Klasa główna programu
+class Program:
+    def __init__(self):
+        self.kamera = Kamera()
+        self.obraz = None
+
+    def uruchom(self):
+        if self.kamera.otworz_kamere():
+            self.kamera.detekcja_twarzy()
+            self.kamera.zamknij_kamere()
+
+        self.obraz = Obraz("obraz_z_kamery.jpg")
+        self.obraz.parametry_obrazu()
+        self.obraz.kolor_piksela(50, 50)
+        self.obraz.wytnij_twarz()
+        self.obraz.zmniejsz_obraz()
+        self.obraz.obroc_obraz()
+        self.obraz.oznacz_twarz("Bartosz Kruszynski")
+
+
+# Inicjalizacja programu
+if __name__ == "__main__":
+    program = Program()
+    program.uruchom()
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
