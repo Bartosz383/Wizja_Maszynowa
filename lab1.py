@@ -41,9 +41,9 @@ class Kamera:
                 print("Zapisano obraz jako 'obraz_z_kamery.jpg'")
                 break
 
-            # Zatrzymaj kamerę przy nacisnięciu "q"
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            # # Zatrzymaj kamerę przy nacisnięciu "q"
+            # if cv2.waitKey(1) & 0xFF == ord('q'):
+            #     break
 
 
 # Klasa do operacji na obrazie
