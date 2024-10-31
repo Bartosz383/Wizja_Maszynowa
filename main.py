@@ -66,7 +66,7 @@ start_button = tk.Button(frame2, text="Laboratoria 2", command=start_program_lab
 start_button.pack(side=tk.LEFT)  # Umieszczamy przycisk po lewej stronie
 
 # Utworzenie etykiety z informacją obok przycisku "Laboratoria 2"
-info_label2 = tk.Label(frame2, text="Przycisk S zapisuje obraz")
+info_label2 = tk.Label(frame2, text="")
 info_label2.pack(side=tk.LEFT, padx=(10, 0))  # Dodanie odstępu po lewej stronie etykiety
 
 # Tworzenie ramki dla przycisku "Wyjście" i etykiety
