@@ -83,44 +83,44 @@ def cover_eyes():
     cap.release()
     cv2.destroyAllWindows()
 
-# Tworzenie GUI z tkinter
-root = tk.Tk()
-root.title("Wybierz program")
-root.geometry("300x450")
-
-# Nagłówek
-label = tk.Label(root, text="Wybierz funkcję detekcji:")
-label.pack(pady=10)
-
-# Przycisk dla wykrywania twarzy
-btn1 = tk.Button(root, text="Wykrywanie Twarzy", command=detect_faces)
-btn1.pack(pady=5)
-
-# Przycisk dla wykrywania oczu
-btn2 = tk.Button(root, text="Wykrywanie Oczu", command=detect_eyes)
-btn2.pack(pady=5)
-
-# Przycisk dla rozmywania twarzy
-btn3 = tk.Button(root, text="Rozmywanie Twarzy", command=blur_faces)
-btn3.pack(pady=5)
-
-# Suwak do ustawiania intensywności rozmycia
-blur_scale = Scale(root, from_=1, to=100, orient=HORIZONTAL, label="Poziom rozmycia")
-blur_scale.set(30)  # wartość początkowa
-blur_scale.pack(pady=5)
-
-# Przycisk dla zakrywania oczu
-btn4 = tk.Button(root, text="Zakrywanie Oczu", command=cover_eyes)
-btn4.pack(pady=5)
-
-# Suwak do ustawiania wysokości paska na oczy
-eye_cover_height_scale = Scale(root, from_=1, to=50, orient=HORIZONTAL, label="Wysokość paska na oczy")
-eye_cover_height_scale.set(10)  # wartość początkowa
-eye_cover_height_scale.pack(pady=5)
-
-# Suwak do ustawiania szerokości paska na oczy
-eye_cover_width_scale = Scale(root, from_=1, to=100, orient=HORIZONTAL, label="Szerokość paska na oczy")
-eye_cover_width_scale.set(30)  # wartość początkowa
-eye_cover_width_scale.pack(pady=5)
-
-root.mainloop()
+# # Tworzenie GUI z tkinter
+# root = tk.Tk()
+# root.title("Wybierz program")
+# root.geometry("300x450")
+#
+# # Nagłówek
+# label = tk.Label(root, text="Wybierz funkcję detekcji:")
+# label.pack(pady=10)
+#
+# # Przycisk dla wykrywania twarzy
+# btn1 = tk.Button(root, text="Wykrywanie Twarzy", command=detect_faces)
+# btn1.pack(pady=5)
+#
+# # Przycisk dla wykrywania oczu
+# btn2 = tk.Button(root, text="Wykrywanie Oczu", command=detect_eyes)
+# btn2.pack(pady=5)
+#
+# # Przycisk dla rozmywania twarzy
+# btn3 = tk.Button(root, text="Rozmywanie Twarzy", command=blur_faces)
+# btn3.pack(pady=5)
+#
+# # Suwak do ustawiania intensywności rozmycia
+# blur_scale = Scale(root, from_=1, to=100, orient=HORIZONTAL, label="Poziom rozmycia")
+# blur_scale.set(30)  # wartość początkowa
+# blur_scale.pack(pady=5)
+#
+# # Przycisk dla zakrywania oczu
+# btn4 = tk.Button(root, text="Zakrywanie Oczu", command=cover_eyes)
+# btn4.pack(pady=5)
+#
+# # Suwak do ustawiania wysokości paska na oczy
+# eye_cover_height_scale = Scale(root, from_=1, to=50, orient=HORIZONTAL, label="Wysokość paska na oczy")
+# eye_cover_height_scale.set(10)  # wartość początkowa
+# eye_cover_height_scale.pack(pady=5)
+#
+# # Suwak do ustawiania szerokości paska na oczy
+# eye_cover_width_scale = Scale(root, from_=1, to=100, orient=HORIZONTAL, label="Szerokość paska na oczy")
+# eye_cover_width_scale.set(30)  # wartość początkowa
+# eye_cover_width_scale.pack(pady=5)
+#
+# root.mainloop()
