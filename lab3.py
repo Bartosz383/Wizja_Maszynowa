@@ -42,7 +42,7 @@ def detect_eyes():
     cv2.destroyAllWindows()
 
 # Funkcja do rozmywania wykrytych twarzy
-def blur_faces():
+def blur_faces(blur_value):
     cap = cv2.VideoCapture(0)
     while True:
         ret, color_image = cap.read()
@@ -52,7 +52,6 @@ def blur_faces():
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.05, minNeighbors=15)
         for (x, y, w, h) in faces:
             face = color_image[y:y+h, x:x+w]
-            blur_value = blur_scale.get()
             face = cv2.blur(face, (blur_value, blur_value))
             color_image[y:y+h, x:x+w] = face
         cv2.imshow('Blurred Faces', color_image)
@@ -61,8 +60,9 @@ def blur_faces():
     cap.release()
     cv2.destroyAllWindows()
 
+
 # Funkcja do zakrywania oczu paskiem
-def cover_eyes():
+def cover_eyes(bar_height, bar_width):
     cap = cv2.VideoCapture(0)
     while True:
         ret, color_image = cap.read()
@@ -71,8 +71,6 @@ def cover_eyes():
         gray = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
         eyes = eye_cascade.detectMultiScale(gray, scaleFactor=1.05, minNeighbors=15)
         for (ex, ey, ew, eh) in eyes:
-            bar_height = eye_cover_height_scale.get()
-            bar_width = eye_cover_width_scale.get()
             cv2.rectangle(color_image,
                           (ex + ew // 2 - bar_width // 2, ey + eh // 2 - bar_height // 2),
                           (ex + ew // 2 + bar_width // 2, ey + eh // 2 + bar_height // 2),
@@ -82,6 +80,9 @@ def cover_eyes():
             break
     cap.release()
     cv2.destroyAllWindows()
+
+
+
 
 # # Tworzenie GUI z tkinter
 # root = tk.Tk()

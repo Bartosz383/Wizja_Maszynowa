@@ -2,7 +2,7 @@ import tkinter as tk
 from lab1 import Program1
 from lab2 import *
 from lab3 import *
-from lab4 import *
+from lab4 import handle_qr_codes, handle_aruco_codes
 
 # Funkcja uruchamiająca program
 def start_program_lab1():
@@ -65,7 +65,7 @@ def open_program_lab3_window():
     btn2.pack(pady=5)
 
     # Przycisk dla rozmywania twarzy
-    btn3 = tk.Button(program_lab3_window, text="Rozmywanie Twarzy", command=blur_faces)
+    btn3 = tk.Button(program_lab3_window, text="Rozmywanie Twarzy", command=lambda: blur_faces(blur_scale.get()))
     btn3.pack(pady=5)
 
     # Suwak do ustawiania intensywności rozmycia
@@ -74,7 +74,7 @@ def open_program_lab3_window():
     blur_scale.pack(pady=5)
 
     # Przycisk dla zakrywania oczu
-    btn4 = tk.Button(program_lab3_window, text="Zakrywanie Oczu", command=cover_eyes)
+    btn4 = tk.Button(program_lab3_window, text="Zakrywanie Oczu", command=lambda: cover_eyes(eye_cover_height_scale.get(), eye_cover_width_scale.get()))
     btn4.pack(pady=5)
 
     # Suwak do ustawiania wysokości i szerokości paska na oczy
@@ -93,15 +93,23 @@ def close_program_lab3_window(window):
     window.destroy()  # Zamknij okno
     app.deiconify()  # Pokaż ponownie główne okno
 
-# Funkcja uruchamiająca program lab4
+# Funkcja otwierająca okno dla lab4
+def open_program_lab4_window():
+    lab4_window = tk.Toplevel()  # Utworzenie nowego okna
+    lab4_window.title("Wybór funkcji kodów")
+    lab4_window.geometry("400x200")
+
+    # Przycisk do obsługi kodów QR
+    btn_qr_code = tk.Button(lab4_window, text="Kody QR", command=handle_qr_codes())
+    btn_qr_code.pack(pady=10)
+
+    # Przycisk do obsługi kodów ArUco
+    btn_aruco_code = tk.Button(lab4_window, text="Kody ArUco", command=handle_aruco_codes)
+    btn_aruco_code.pack(pady=10)
+
+# Funkcja do uruchomienia programu lab4
 def start_program_lab4():
-    app.withdraw()  # Ukryj menu Tkinter
-    import lab4  # Import lab4 do lokalnej przestrzeni
-    # Uruchom funkcje zawarte w lab4 bez potrzeby otwierania nowego okna
-    lab4.main()  # W lab4 utwórz funkcję main, która zawiera cały kod
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    app.deiconify()  # Ponownie pokaż menu po zamknięciu okna OpenCV
+    open_program_lab4_window()
 
 # Tworzenie menu Tkinter
 app = tk.Tk()

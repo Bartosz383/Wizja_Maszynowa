@@ -67,14 +67,12 @@
 # # Zwolnij zasoby kamery
 # cap.release()
 
-# Plik lab4.py
 import cv2
 import pytesseract
 import numpy as np
 import qrcode
 
-
-def main():
+def handle_qr_codes():
     pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract.exe"
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
@@ -107,5 +105,9 @@ def main():
         print("Nie udało się odczytać kodu QR")
 
     cap.release()
+
+def handle_aruco_codes():
+    # Szablon funkcji do pracy z kodami ArUco
+    print("Funkcja do przetwarzania kodów ArUco jeszcze nie zaimplementowana.")
 
 
