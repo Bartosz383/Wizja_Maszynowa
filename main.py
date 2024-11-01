@@ -100,7 +100,7 @@ def open_program_lab4_window():
     lab4_window.geometry("400x200")
 
     # Przycisk do obsługi kodów QR
-    btn_qr_code = tk.Button(lab4_window, text="Kody QR", command=handle_qr_codes())
+    btn_qr_code = tk.Button(lab4_window, text="Kody QR", command=handle_qr_codes)
     btn_qr_code.pack(pady=10)
 
     # Przycisk do obsługi kodów ArUco
