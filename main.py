@@ -2,7 +2,7 @@ import tkinter as tk
 from lab1 import Program1
 from lab2 import *
 from lab3 import *
-from lab4 import handle_qr_codes, handle_aruco_codes, arc_uco_reading
+from lab4 import *
 
 # Funkcja uruchamiająca program
 def start_program_lab1():
@@ -111,6 +111,10 @@ def open_program_lab4_window():
     btn_aruco_code = tk.Button(lab4_window, text="Odczyt kodów ArUco", command=arc_uco_reading)
     btn_aruco_code.pack(pady=10)
 
+    # Przycisk do odczytu kodów ArUco na bieżąco z kamery
+    btn_aruco_camera = tk.Button(lab4_window, text="Odczyt kodów ArUco z kamery", command=arc_uco_reading_camera)
+    btn_aruco_camera.pack(pady=10)
+
 # Funkcja do uruchomienia programu lab4
 def start_program_lab4():
     open_program_lab4_window()
@@ -160,3 +164,4 @@ info_label4.pack(side=tk.LEFT, padx=(10, 0))
 
 # Uruchomienie menu
 app.mainloop()
+

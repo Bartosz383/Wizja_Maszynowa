@@ -103,4 +103,50 @@ def arc_uco_reading():
     except Exception as e:
         print("Wystąpił błąd podczas odczytu kodów ArUco:", str(e))
 
+# Funkcja do odczytu kodów ArUco na bieżąco z kamery
+def arc_uco_reading_camera():
+    # Ustawienia kamery (domyślne urządzenie)
+    cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        print("Nie można otworzyć kamery")
+        return
+
+    # Wybór słownika ArUco i konfiguracja detektora
+    aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
+    parameters = aruco.DetectorParameters()
+    detector = aruco.ArucoDetector(aruco_dict, parameters)
+
+    print("Naciśnij 'q', aby zakończyć odczyt kodów ArUco z kamery.")
+
+    while True:
+        # Przechwyć obraz z kamery
+        ret, frame = cap.read()
+        if not ret:
+            print("Nie udało się przechwycić obrazu")
+            break
+
+        # Konwersja obrazu do skali szarości
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+        # Wykrywanie markerów ArUco
+        corners, ids, _ = detector.detectMarkers(gray)
+
+        # Rysowanie wykrytych markerów na obrazie
+        frame_markers = aruco.drawDetectedMarkers(frame.copy(), corners, ids)
+
+        # Wyświetlanie obrazu z wykrytymi markerami
+        cv2.imshow("Detected ArUco Markers (Kamera)", frame_markers)
+
+        # Wyświetlanie identyfikatorów markerów w terminalu
+        if ids is not None:
+            print("Wykryto identyfikatory markerów ArUco:", ids.flatten())
+
+        # Zamknij okno po naciśnięciu 'q'
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    # Zwolnij zasoby kamery i zamknij okno
+    cap.release()
+    cv2.destroyAllWindows()
+
 
