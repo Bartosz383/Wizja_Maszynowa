@@ -2,7 +2,7 @@ import tkinter as tk
 from lab1 import Program1
 from lab2 import *
 from lab3 import *
-from lab4 import handle_qr_codes, handle_aruco_codes
+from lab4 import handle_qr_codes, handle_aruco_codes, arc_uco_reading
 
 # Funkcja uruchamiająca program
 def start_program_lab1():
@@ -107,6 +107,10 @@ def open_program_lab4_window():
     btn_aruco_code = tk.Button(lab4_window, text="Kody ArUco", command=handle_aruco_codes)
     btn_aruco_code.pack(pady=10)
 
+    # Przycisk do odczytu kodów ArUco
+    btn_aruco_code = tk.Button(lab4_window, text="Odczyt kodów ArUco", command=arc_uco_reading)
+    btn_aruco_code.pack(pady=10)
+
 # Funkcja do uruchomienia programu lab4
 def start_program_lab4():
     open_program_lab4_window()
@@ -143,7 +147,7 @@ frame4 = tk.Frame(app)
 frame4.pack(pady=10)
 start_button = tk.Button(frame4, text="Laboratoria 4", command=start_program_lab4, width=20, height=2)
 start_button.pack(side=tk.LEFT)
-info_label4 = tk.Label(frame4, text="Przechwytywanie obrazu, QR kod")
+info_label4 = tk.Label(frame4, text="Przechwytywanie obrazu, QR kod, kody ArUco")
 info_label4.pack(side=tk.LEFT, padx=(10, 0))
 
 # Przycisk wyjścia
