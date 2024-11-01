@@ -13,6 +13,7 @@
 import cv2
 import pytesseract
 import numpy as np
+import qrcode
 
 # Ścieżka do Tesseract
 pytesseract.pytesseract.tesseract_cmd = "C:/Program Files (x86)/Tesseract-OCR/tesseract.exe"
@@ -43,7 +44,9 @@ if ret:
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 else:
-    print("Nie udało się przechwycić obrazu")
+    print("D:/Repozytoria i inne takie/Wizja_Maszynowa/Wizja_Maszynowa/Nie udało się przechwycić obrazu")
 
+img=qrcode.make('Mój kod QR')
+img.save('moj_qr.png')
 # Zwolnij zasoby kamery
 cap.release()
