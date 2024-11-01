@@ -16,7 +16,7 @@ import numpy as np
 import qrcode
 
 # Ścieżka do Tesseract
-pytesseract.pytesseract.tesseract_cmd = "C:/Program Files (x86)/Tesseract-OCR/tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract.exe"
 
 # Inicjalizacja kamery
 cap = cv2.VideoCapture(0)  # 0 oznacza domyślną kamerę
@@ -37,24 +37,32 @@ if ret:
     imgArray = np.asarray(frame)
 
     # Wyświetl wynik
-    print('Wynik:', imgArray)
+    print('Wynik tablicy obrazu:', imgArray)
 
     # Pokaż obraz z kamery
     cv2.imshow("Obraz z kamery", frame)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 else:
-    print("D:/Repozytoria i inne takie/Wizja_Maszynowa/Wizja_Maszynowa/Nie udało się przechwycić obrazu")
+    print("Nie udało się przechwycić obrazu")
 
-img=qrcode.make('Mój kod QR')
-img.save("D:/Repozytoria i inne takie\Wizja_Maszynowa/Wizja_Maszynowa/moj_qr.png")
+# Generowanie kodu QR
+qr_content = "Mój kod QR"
+qr_img = qrcode.make(qr_content)
+qr_img_path = "moj_qr.png"
+qr_img.save(qr_img_path)
+print(f"Zapisano kod QR pod ścieżką: {qr_img_path}")
 
-img=cv2.imread("D:/Repozytoria i inne takie/Wizja_Maszynowa/Wizja_Maszynowa/moj_qr.png")
-det=cv2.QRCodeDetector()
-val, pts, st_code=det.detectAndDecode(img)
+# Wczytanie i dekodowanie kodu QR
+img = cv2.imread(qr_img_path)
+det = cv2.QRCodeDetector()
+val, pts, st_code = det.detectAndDecode(img)
 
-print(val)
-
+# Sprawdzenie wartości kodu QR
+if val:
+    print("Wartość kodu QR:", val)
+else:
+    print("Nie udało się odczytać kodu QR")
 
 # Zwolnij zasoby kamery
 cap.release()
