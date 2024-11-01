@@ -47,6 +47,14 @@ else:
     print("D:/Repozytoria i inne takie/Wizja_Maszynowa/Wizja_Maszynowa/Nie udało się przechwycić obrazu")
 
 img=qrcode.make('Mój kod QR')
-img.save('moj_qr.png')
+img.save("D:/Repozytoria i inne takie\Wizja_Maszynowa/Wizja_Maszynowa/moj_qr.png")
+
+img=cv2.imread("D:/Repozytoria i inne takie/Wizja_Maszynowa/Wizja_Maszynowa/moj_qr.png")
+det=cv2.QRCodeDetector()
+val, pts, st_code=det.detectAndDecode(img)
+
+print(val)
+
+
 # Zwolnij zasoby kamery
 cap.release()
