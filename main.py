@@ -2,7 +2,7 @@ import tkinter as tk
 from lab1 import Program1
 from lab2 import *
 from lab3 import *
-import cv2
+from lab4 import *
 
 # Funkcja uruchamiająca program
 def start_program_lab1():
@@ -15,9 +15,9 @@ def start_program_lab1():
 
 def start_program_lab2():
     app.withdraw()  # Ukryj menu Tkinter
-    open_lab2_window()  # Otwórz nowe okno dla laboratorium 2
+    open_program_lab2_window()  # Otwórz nowe okno dla laboratorium 2
 
-def open_lab2_window():
+def open_program_lab2_window():
     # Utworzenie nowego okna dla lab2
     lab2_window = tk.Toplevel(app)  # Użyj Toplevel dla nowego okna
     lab2_window.title("Wybór funkcji filtrowania obrazu")
@@ -36,67 +36,77 @@ def open_lab2_window():
     btn_kamera.pack(pady=10)
 
     # Dodaj możliwość zamknięcia okna
-    lab2_window.protocol("WM_DELETE_WINDOW", lambda: close_lab2_window(lab2_window))
+    lab2_window.protocol("WM_DELETE_WINDOW", lambda: close_program_lab2_window(lab2_window))
 
-def close_lab2_window(window):
+def close_program_lab2_window(window):
     window.destroy()  # Zamknij okno
     app.deiconify()   # Pokaż ponownie główne okno
 
 # Funkcja uruchamiająca podprogram
-def start_subprogram():
+def start_program_lab3():
     app.withdraw()  # Ukryj menu główne
-    open_subprogram_window()  # Uruchom okno podprogramu
+    open_program_lab3_window()  # Uruchom okno podprogramu
 
-def open_subprogram_window():
+def open_program_lab3_window():
     # Tworzenie GUI dla podprogramu
-    subprogram_window = tk.Toplevel(app)
-    subprogram_window.title("Wybierz program")
-    subprogram_window.geometry("300x450")
+    program_lab3_window = tk.Toplevel(app)
+    program_lab3_window.title("Wybierz program")
+    program_lab3_window.geometry("300x450")
 
-    label = tk.Label(subprogram_window, text="Wybierz funkcję detekcji:")
+    label = tk.Label(program_lab3_window, text="Wybierz funkcję detekcji:")
     label.pack(pady=10)
 
     # Przycisk dla wykrywania twarzy
-    btn1 = tk.Button(subprogram_window, text="Wykrywanie Twarzy", command=detect_faces)
+    btn1 = tk.Button(program_lab3_window, text="Wykrywanie Twarzy", command=detect_faces)
     btn1.pack(pady=5)
 
     # Przycisk dla wykrywania oczu
-    btn2 = tk.Button(subprogram_window, text="Wykrywanie Oczu", command=detect_eyes)
+    btn2 = tk.Button(program_lab3_window, text="Wykrywanie Oczu", command=detect_eyes)
     btn2.pack(pady=5)
 
     # Przycisk dla rozmywania twarzy
-    btn3 = tk.Button(subprogram_window, text="Rozmywanie Twarzy", command=blur_faces)
+    btn3 = tk.Button(program_lab3_window, text="Rozmywanie Twarzy", command=blur_faces)
     btn3.pack(pady=5)
 
     # Suwak do ustawiania intensywności rozmycia
-    blur_scale = tk.Scale(subprogram_window, from_=1, to=100, orient=tk.HORIZONTAL, label="Poziom rozmycia")
+    blur_scale = tk.Scale(program_lab3_window, from_=1, to=100, orient=tk.HORIZONTAL, label="Poziom rozmycia")
     blur_scale.set(30)  # wartość początkowa
     blur_scale.pack(pady=5)
 
     # Przycisk dla zakrywania oczu
-    btn4 = tk.Button(subprogram_window, text="Zakrywanie Oczu", command=cover_eyes)
+    btn4 = tk.Button(program_lab3_window, text="Zakrywanie Oczu", command=cover_eyes)
     btn4.pack(pady=5)
 
     # Suwak do ustawiania wysokości i szerokości paska na oczy
-    eye_cover_height_scale = tk.Scale(subprogram_window, from_=1, to=50, orient=tk.HORIZONTAL, label="Wysokość paska na oczy")
+    eye_cover_height_scale = tk.Scale(program_lab3_window, from_=1, to=50, orient=tk.HORIZONTAL, label="Wysokość paska na oczy")
     eye_cover_height_scale.set(10)  # wartość początkowa
     eye_cover_height_scale.pack(pady=5)
 
-    eye_cover_width_scale = tk.Scale(subprogram_window, from_=1, to=100, orient=tk.HORIZONTAL, label="Szerokość paska na oczy")
+    eye_cover_width_scale = tk.Scale(program_lab3_window, from_=1, to=100, orient=tk.HORIZONTAL, label="Szerokość paska na oczy")
     eye_cover_width_scale.set(30)  # wartość początkowa
     eye_cover_width_scale.pack(pady=5)
 
     # Dodaj możliwość zamknięcia okna
-    subprogram_window.protocol("WM_DELETE_WINDOW", lambda: close_subprogram_window(subprogram_window))
+    program_lab3_window.protocol("WM_DELETE_WINDOW", lambda: close_program_lab3_window(program_lab3_window))
 
-def close_subprogram_window(window):
+def close_program_lab3_window(window):
     window.destroy()  # Zamknij okno
     app.deiconify()  # Pokaż ponownie główne okno
+
+# Funkcja uruchamiająca program lab4
+def start_program_lab4():
+    app.withdraw()  # Ukryj menu Tkinter
+    import lab4  # Import lab4 do lokalnej przestrzeni
+    # Uruchom funkcje zawarte w lab4 bez potrzeby otwierania nowego okna
+    lab4.main()  # W lab4 utwórz funkcję main, która zawiera cały kod
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    app.deiconify()  # Ponownie pokaż menu po zamknięciu okna OpenCV
 
 # Tworzenie menu Tkinter
 app = tk.Tk()
 app.title("Menu Programu")
-app.geometry("300x400")
+app.geometry("400x400")
 
 # Dodanie przycisków do laboratorium i podprogramu
 frame1 = tk.Frame(app)
@@ -116,10 +126,17 @@ info_label2.pack(side=tk.LEFT, padx=(10, 0))
 # Przycisk uruchomienia podprogramu
 frame3 = tk.Frame(app)
 frame3.pack(pady=10)
-subprogram_button = tk.Button(frame3, text="Laboratoria 3", command=start_subprogram, width=20, height=2)
-subprogram_button.pack(side=tk.LEFT)
+program_lab3_button = tk.Button(frame3, text="Laboratoria 3", command=start_program_lab3, width=20, height=2)
+program_lab3_button.pack(side=tk.LEFT)
 info_label3 = tk.Label(frame3, text="Detekcja twarzy, oczu, blur, czarny pasek")
 info_label3.pack(side=tk.LEFT, padx=(10, 0))
+
+frame4 = tk.Frame(app)
+frame4.pack(pady=10)
+start_button = tk.Button(frame4, text="Laboratoria 4", command=start_program_lab4, width=20, height=2)
+start_button.pack(side=tk.LEFT)
+info_label4 = tk.Label(frame4, text="Przechwytywanie obrazu, QR kod")
+info_label4.pack(side=tk.LEFT, padx=(10, 0))
 
 # Przycisk wyjścia
 frameW = tk.Frame(app)

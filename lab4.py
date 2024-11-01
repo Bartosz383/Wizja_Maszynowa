@@ -10,59 +10,102 @@
 #
 # print('Wynik:', imgArray )
 
+# import cv2
+# import pytesseract
+# import numpy as np
+# import qrcode
+#
+# # Ścieżka do Tesseract
+# pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract.exe"
+#
+# # Inicjalizacja kamery
+# cap = cv2.VideoCapture(0)  # 0 oznacza domyślną kamerę
+#
+# # Sprawdź, czy kamera została poprawnie otwarta
+# if not cap.isOpened():
+#     print("Nie można otworzyć kamery")
+#     exit()
+#
+# # Przechwycenie jednej klatki z kamery
+# ret, frame = cap.read()
+#
+# if ret:
+#     # Zapisz przechwycony obraz jako nowy plik
+#     cv2.imwrite("new_lab4_camera.png", frame)
+#
+#     # Przekształć obraz na tablicę numpy
+#     imgArray = np.asarray(frame)
+#
+#     # Wyświetl wynik
+#     print('Wynik tablicy obrazu:', imgArray)
+#
+#     # Pokaż obraz z kamery
+#     cv2.imshow("Obraz z kamery", frame)
+#     cv2.waitKey(0)
+#     cv2.destroyAllWindows()
+# else:
+#     print("Nie udało się przechwycić obrazu")
+#
+# # Generowanie kodu QR
+# qr_content = "Mój kod QR"
+# qr_img = qrcode.make(qr_content)
+# qr_img_path = "moj_qr.png"
+# qr_img.save(qr_img_path)
+# print(f"Zapisano kod QR pod ścieżką: {qr_img_path}")
+#
+# # Wczytanie i dekodowanie kodu QR
+# img = cv2.imread(qr_img_path)
+# det = cv2.QRCodeDetector()
+# val, pts, st_code = det.detectAndDecode(img)
+#
+# # Sprawdzenie wartości kodu QR
+# if val:
+#     print("Wartość kodu QR:", val)
+# else:
+#     print("Nie udało się odczytać kodu QR")
+#
+# # Zwolnij zasoby kamery
+# cap.release()
+
+# Plik lab4.py
 import cv2
 import pytesseract
 import numpy as np
 import qrcode
 
-# Ścieżka do Tesseract
-pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract.exe"
 
-# Inicjalizacja kamery
-cap = cv2.VideoCapture(0)  # 0 oznacza domyślną kamerę
+def main():
+    pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract.exe"
+    cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        print("Nie można otworzyć kamery")
+        return
 
-# Sprawdź, czy kamera została poprawnie otwarta
-if not cap.isOpened():
-    print("Nie można otworzyć kamery")
-    exit()
+    ret, frame = cap.read()
+    if ret:
+        cv2.imwrite("new_lab4_camera.png", frame)
+        imgArray = np.asarray(frame)
+        print('Wynik tablicy obrazu:', imgArray)
+        cv2.imshow("Obraz z kamery", frame)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+    else:
+        print("Nie udało się przechwycić obrazu")
 
-# Przechwycenie jednej klatki z kamery
-ret, frame = cap.read()
+    qr_content = "Mój kod QR"
+    qr_img = qrcode.make(qr_content)
+    qr_img_path = "moj_qr.png"
+    qr_img.save(qr_img_path)
+    print(f"Zapisano kod QR pod ścieżką: {qr_img_path}")
 
-if ret:
-    # Zapisz przechwycony obraz jako nowy plik
-    cv2.imwrite("new_lab4_camera.png", frame)
+    img = cv2.imread(qr_img_path)
+    det = cv2.QRCodeDetector()
+    val, pts, st_code = det.detectAndDecode(img)
+    if val:
+        print("Wartość kodu QR:", val)
+    else:
+        print("Nie udało się odczytać kodu QR")
 
-    # Przekształć obraz na tablicę numpy
-    imgArray = np.asarray(frame)
+    cap.release()
 
-    # Wyświetl wynik
-    print('Wynik tablicy obrazu:', imgArray)
 
-    # Pokaż obraz z kamery
-    cv2.imshow("Obraz z kamery", frame)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-else:
-    print("Nie udało się przechwycić obrazu")
-
-# Generowanie kodu QR
-qr_content = "Mój kod QR"
-qr_img = qrcode.make(qr_content)
-qr_img_path = "moj_qr.png"
-qr_img.save(qr_img_path)
-print(f"Zapisano kod QR pod ścieżką: {qr_img_path}")
-
-# Wczytanie i dekodowanie kodu QR
-img = cv2.imread(qr_img_path)
-det = cv2.QRCodeDetector()
-val, pts, st_code = det.detectAndDecode(img)
-
-# Sprawdzenie wartości kodu QR
-if val:
-    print("Wartość kodu QR:", val)
-else:
-    print("Nie udało się odczytać kodu QR")
-
-# Zwolnij zasoby kamery
-cap.release()
