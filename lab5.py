@@ -3,6 +3,8 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
+# Ustawienie backendu dla Matplotlib
+matplotlib.use('TkAgg')
 
 def krokodyl():
     image_path = "D:/Repozytoria i inne takie/Wizja_Maszynowa/Wizja_Maszynowa/lab5.png"
@@ -87,21 +89,6 @@ def krokodyl():
     plt.axis('off')
     plt.show()
 
-
-
-
-import cv2
-import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib
-
-# Ustawienie backendu dla Matplotlib
-matplotlib.use('TkAgg')
-
-# Wczytaj obrazy
-img1 = cv2.imread("D:/Repozytoria i inne takie/Wizja_Maszynowa/Wizja_Maszynowa/lab51.png", cv2.IMREAD_GRAYSCALE)
-img2 = cv2.imread("D:/Repozytoria i inne takie/Wizja_Maszynowa/Wizja_Maszynowa/lab52.png", cv2.IMREAD_GRAYSCALE)
-
 # Funkcja do wyświetlania wyników filtrów
 def show_images(images, titles):
     plt.figure(figsize=(20, 10))
@@ -112,14 +99,22 @@ def show_images(images, titles):
         plt.axis('off')
     plt.show()
 
+# Przetwarzanie obrazu lab51.png
 def process_image1():
-    gauss1 = cv2.GaussianBlur(img1, (5, 5), 5)
-    median1 = cv2.medianBlur(gauss1, 3)
-    _, thresh1 = cv2.threshold(median1, 50, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    show_images([img1, gauss1, median1, thresh1], ["LAB51 - Oryginał", "Gauss", "Medianowy", "Próg Otsu"])
+    img = Image.open("D:/Repozytoria i inne takie/Wizja_Maszynowa/Wizja_Maszynowa/lab51.png").convert('L')
+    imgArray = np.asarray(img)
+    ret1, imgThresholded1 = cv2.threshold(imgArray, 50, 255, cv2.THRESH_BINARY)
+    plt.title('Próg 50')
+    plt.axis('off')
+    plt.imshow(imgThresholded1, cmap='gray')
+    plt.show()
 
+# Przetwarzanie obrazu lab52.png
 def process_image2():
-    gauss2 = cv2.GaussianBlur(img2, (3, 3), 0)
-    median2 = cv2.medianBlur(gauss2, 3)
-    _, thresh2 = cv2.threshold(median2, 230, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    show_images([img2, gauss2, median2, thresh2], ["LAB52 - Oryginał", "Gauss", "Medianowy", "Próg Otsu"])
+    img = Image.open("D:/Repozytoria i inne takie/Wizja_Maszynowa/Wizja_Maszynowa/lab52.png").convert('L')
+    imgArray = np.asarray(img)
+    ret1, imgThresholded1 = cv2.threshold(imgArray, 230, 255, cv2.THRESH_BINARY)
+    plt.title('Próg 230')
+    plt.axis('off')
+    plt.imshow(imgThresholded1, cmap='gray')
+    plt.show()
