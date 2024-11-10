@@ -3,6 +3,8 @@ from lab1 import Program1
 from lab2 import *
 from lab3 import *
 from lab4 import *
+from lab4 import *
+from lab5 import process_image1, process_image2, krokodyl
 
 # Funkcja uruchamiająca program
 def start_program_lab1():
@@ -119,6 +121,24 @@ def open_program_lab4_window():
 def start_program_lab4():
     open_program_lab4_window()
 
+def open_lab5_window():
+    lab5_window = tk.Toplevel()
+    lab5_window.title("Lab5 - Przetwarzanie Obrazów")
+    lab5_window.geometry("400x200")
+
+    # Przycisk do przetwarzania obrazu lab51
+    btn_image1 = tk.Button(lab5_window, text="Przetwarzaj Obraz lab51.png", command=process_image1)
+    btn_image1.pack(pady=10)
+
+    # Przycisk do przetwarzania obrazu lab52
+    btn_image2 = tk.Button(lab5_window, text="Przetwarzaj Obraz lab52.png", command=process_image2)
+    btn_image2.pack(pady=10)
+
+    # Przycisk do przetwarzania obrazu z krokodylem
+    btn_image2 = tk.Button(lab5_window, text="Przetwarzaj krokodyla", command=krokodyl)
+    btn_image2.pack(pady=10)
+
+
 # Tworzenie menu Tkinter
 app = tk.Tk()
 app.title("Menu Programu")
@@ -154,7 +174,13 @@ start_button.pack(side=tk.LEFT)
 info_label4 = tk.Label(frame4, text="Przechwytywanie obrazu, QR kod, kody ArUco")
 info_label4.pack(side=tk.LEFT, padx=(10, 0))
 
-# Przycisk wyjścia
+frame5 = tk.Frame(app)
+frame5.pack(pady=10)
+lab5_button = tk.Button(frame5, text="Laboratoria 5", command=open_lab5_window, width=20, height=2)
+lab5_button.pack(side=tk.LEFT)
+info_label5 = tk.Label(frame5, text="Przetwarzanie obrazów w Lab5")
+info_label5.pack(side=tk.LEFT, padx=(10, 0))
+
 frameW = tk.Frame(app)
 frameW.pack(pady=10)
 exit_button = tk.Button(frameW, text="Wyjście", command=app.quit, width=20, height=2)
