@@ -47,7 +47,6 @@ def handle_aruco_codes():
     # Wybierz słownik ArUco
     aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
 
-    # Ustawienia wykresu
     fig = plt.figure()
     nx = 4  # liczba kolumn
     ny = 3  # liczba wierszy
@@ -59,10 +58,8 @@ def handle_aruco_codes():
         plt.imshow(img, cmap=mpl.cm.gray, interpolation="nearest")
         ax.axis("off")
 
-    # Zapisz wykres do pliku
     plt.savefig("markers.jpg")
 
-    # Wyświetl wykres
     plt.show()
 
 # Funkcja do odczytu kodów ArUco ze ścieżki
